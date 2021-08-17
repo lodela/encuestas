@@ -1,0 +1,36 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title class="subTitle">Encuesta</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="getBack()" *ngIf="progress > 0"
+        ><ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon
+      ></ion-button>
+      <ion-button (click)="goHome()"> <ion-icon name="home-outline" slot="end"></ion-icon> </ion-button>
+      <ion-button *ngIf="isAdmin" (click)="openMenu()">
+        <ion-icon name="menu-outline" color="dark" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-button slot="end" color="dark" (click)="logOut()">
+      <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen class="gray">
+  <header class="subHeader white">
+    <ion-item> <ion-label class="ion-text-wrap">{{lectura}}</ion-label> </ion-item>
+  </header>
+  <app-pregunta #ref (questionIndex)="indexQuestion($event)" (qlength)="questLength($event)" (mensaje)="setMensaje($event)">
+  </app-pregunta>
+  <!-- <p>selected: {{ progress }}</p>
+  <p>length: {{ questionsLength }}</p> -->
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="danger"><ion-icon name="eye-off-outline" slot="icon-only"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-item> <span slot="end">V.0.0.1</span> </ion-item>
+  </ion-toolbar>
+</ion-footer>

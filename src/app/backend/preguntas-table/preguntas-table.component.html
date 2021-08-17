@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="subTitle"> Campaña Uno </ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="openMenu()"> <ion-icon name="menu-outline" color="primary" slot="icon-only"></ion-icon> </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="goHome()"> <ion-icon name="home-outline" slot="end"></ion-icon> </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-toolbar>
+        <ion-buttons slot="secondary">
+          <ion-button (click)="addNewPregunta()"> <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon> </ion-button>
+        </ion-buttons>
+        <ion-card-title>Preguntas</ion-card-title>
+        <ion-card-subtitle>Edita, reorganiza, borra, agrega...</ion-card-subtitle>
+      </ion-toolbar>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+        <ion-item-sliding *ngFor="let q of preguntas" [id]="q.id">
+          <ion-item-options side="start">
+            <ion-item-option>
+              <ion-icon name="pie-chart-outline" slot="start"></ion-icon>
+              Numeralia
+            </ion-item-option>
+          </ion-item-options>
+          <ion-item>
+            <ion-label (click)="presentModal(q)">{{ q.pregunta }}</ion-label>
+            <ion-reorder slot="end"> <ion-icon name="swap-vertical-outline"></ion-icon> </ion-reorder>
+          </ion-item>
+
+          <ion-item-options side="end">
+            <ion-item-option (click)="editPregunta(q.id)">
+              <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+            </ion-item-option>
+            <ion-item-option color="danger" (click)="deletePregunta(q.id)"
+              ><ion-icon name="trash-outline" slot="icon-only"></ion-icon
+            ></ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-reorder-group>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

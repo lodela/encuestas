@@ -1,0 +1,96 @@
+<ion-card *ngIf="ready">
+  <ion-item>
+    <ion-range min="0" [max]="questionsLength" step="1" [value]="selected" snaps color="success" disabled>
+      <ion-icon slot="start" size="small" color="dark" name="chevron-forward-circle"></ion-icon>
+      <ion-icon slot="end" color="dark" name="checkmark-done"></ion-icon>
+    </ion-range>
+  </ion-item>
+  <ion-card-header>
+    <ion-card-title class="title text-center">{{ questions[selected].pregunta }}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <div *ngIf="'null' === tipoPregunta || 'opcionMultiple' === tipoPregunta || 'video' === tipoPregunta">
+      <ion-item *ngIf="'video' === tipoPregunta">
+        <img [src]="videoPoster" style="width : 100%;" (click)="playVideo()" />
+      </ion-item>
+      <ion-list>
+        <ion-radio-group #preguntas (click)="radioSelect($event)">
+          <ion-list-header> <ion-label>Selecciona una respuesta</ion-label> </ion-list-header>
+          <ion-item *ngFor="let r of questions[selected].respuestas; let i = index" class="pregunta item-text-wra" expandable>
+            <ion-thumbnail slot="end" *ngIf="questions[selected].foto && questions[selected].foto.length >= 2">
+              <ion-img [src]="questions[selected].foto[i]"></ion-img>
+            </ion-thumbnail>
+            <ion-label class="ion-text-wrap">{{ r }}</ion-label>
+            <ion-radio slot="start" [value]="i" color="primary"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </div>
+    <div *ngIf="'texto' === tipoPregunta">
+      <ion-item>
+        <ion-label position="floating">{{ questions[selected].respuestas[0] }}</ion-label>
+        <ion-textarea [(ngModel)]="textoLibre" [placeholder]="'Describe your ' + questions[selected].pregunta"></ion-textarea>
+      </ion-item>
+    </div>
+    <div *ngIf="'formulario' === tipoPregunta">
+      <form [formGroup]="profileForm">
+        <ion-list>
+          <ion-item>
+            <ion-label for="name" position="stacked">¿Cual es su Nombre?</ion-label>
+            <ion-input
+              id="name"
+              class="text"
+              type="string"
+              inputmode="text"
+              placeholder="Ingrese nombre"
+              formControlName="name"
+            >
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label for="paterno" class="text" position="floating"> ¿Cuál es su apellido Paterno? </ion-label>
+            <ion-input
+              id="paterno"
+              class="text"
+              type="string"
+              inputmode="text"
+              placeholder="Apellido Paterno"
+              formControlName="paterno"
+            >
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label for="materno" class="text" position="floating"> ¿Cuál es su apellido Materno? </ion-label>
+            <ion-input
+              id="materno"
+              class="text"
+              type="string"
+              inputmode="text"
+              placeholder="Apellido Materno"
+              formControlName="materno"
+            >
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label for="mail" class="text" position="floating"> ¿Cuál es su correo electrónico? </ion-label>
+            <ion-input
+              id="materno"
+              class="email"
+              type="email"
+              inputmode="text"
+              placeholder="ej. email@test.com"
+              formControlName="mail"
+            >
+            </ion-input>
+          </ion-item>
+        </ion-list>
+      </form>
+    </div>
+    <ion-item>
+      <ion-button expand="block" color="success" (click)="next()" [disabled]="isButtonDisabled">
+        <ion-icon slot="start" name="checkmark-done-outline"></ion-icon>
+        {{ textoBtn.msg }}
+      </ion-button>
+    </ion-item>
+  </ion-card-content>
+</ion-card>

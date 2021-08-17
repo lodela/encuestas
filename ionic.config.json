@@ -1,0 +1,8 @@
+{
+  "name": "gasApp",
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar> <ion-title>LogIn</ion-title> </ion-toolbar>
+</ion-header>
+
+<ion-content class="gray">
+  <ion-card class="mt-5">
+    <ion-card-header> <ion-card-title>Ingresa tu llave</ion-card-title> </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-icon name="key-outline" slot="start" color="primary"></ion-icon>
+        <ion-label position="floating">Ingresa tu llave:</ion-label>
+        <ion-input type="text" placeholder="ej. HX0M9Q" [(ngModel)]="key"></ion-input>
+      </ion-item>
+      <section class="pt-5">
+        <ion-button expand="block" class="button subTitle" (click)="submit()">
+          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+          Entrar
+        </ion-button>
+      </section>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar> <ion-title>Footer</ion-title> </ion-toolbar>
+</ion-footer>

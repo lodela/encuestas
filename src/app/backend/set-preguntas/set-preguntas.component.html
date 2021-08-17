@@ -1,0 +1,99 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="subTitle">{{ !preguntaId ? title.new : title.edit }}</ion-title>
+    <ion-buttons slot="start">
+      <ion-button [routerLink]="['/admin']"><ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="nuevaPregunta()"> <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon> </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <ion-toolbar>
+        <ion-item>
+          <ion-label position="floating">Tipo de Pregunta</ion-label>
+          <ion-select [(ngModel)]="data.tipoPregunta" ok-text="Okay" cancel-text="Nah" #tipo>
+            <ion-select-option value="opcionMultiple">OpcionMultiple</ion-select-option>
+            <ion-select-option value="formulario">Formulario</ion-select-option>
+            <ion-select-option value="texto">Texto Libre</ion-select-option>
+            <ion-select-option value="video">Video</ion-select-option>
+            <ion-select-option value="audio">Audio</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-toolbar>
+      <ion-item *ngIf="data.tipoPregunta === 'video'">
+        <ion-label class="text" position="floating"> Video URL: </ion-label>
+        <ion-input class="text" type="string" inputmode="text" placeholder="URL del video" [(ngModel)]="data.videoURL">
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label class="text" position="floating"> Intro / Instrucciones: </ion-label>
+        <ion-input
+          class="text"
+          type="string"
+          inputmode="text"
+          placeholder="Texto previo a la pregunta"
+          [(ngModel)]="data.intro"
+        >
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label class="text" position="floating"> Pregunta: </ion-label>
+        <ion-input
+          class="text"
+          type="string"
+          inputmode="text"
+          placeholder="Ingrese una nueva pregunta"
+          [(ngModel)]="data.pregunta"
+        ></ion-input>
+      </ion-item>
+      <ion-item *ngIf="data.tipoPregunta === 'next'">
+        <ion-text color="danger">
+          <h3>Formulario:</h3>
+          <h6>
+            En cada respuesta debes escribir primero el tipo de dato: ("text, number, email, password,"), separado por ";" en
+            seguida escribe la etiqueta que quieres que muestre: (ej. "Ingresa tu nombre", "Numero de telefono", "escribe tu
+            email", "confirma tu password"). Si requieres un mínimo y un maximo de caracteres entonces nuevamente ";" y en
+            seguida lo siguiente: "min:4 max:8". Si no tuviera un minimo pero si un maximo entonces sería: "max:8" y viceversa.
+            al final quedaría de la sig. forma: <b>"text; Ingresa tu nombre; min:4 max:12"</b>
+          </h6>
+        </ion-text>
+      </ion-item>
+      <ion-item *ngFor="let r of data.respuestas; index as i">
+        <ion-buttons slot="end">
+          <ion-button (click)="deleteRespuesta(i)" class="m-0 p-0">
+            <ion-icon name="trash-outline" slot="icon-only"></ion-icon
+          ></ion-button>
+        </ion-buttons>
+        <ion-avatar slot="start" *ngIf="data.foto && data.foto.length > 1"> <img [src]="data.foto[i]" /> </ion-avatar>
+        <ion-label position="stacked"> Resp. {{ i + 1 }}: </ion-label>
+        <ion-input
+          class="text respuesta"
+          [class]="i ? 'index_' + i.toString() : 'index_0'"
+          type="string"
+          inputmode="text"
+          [value]="r"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-button (click)="addRespuesta()"> <ion-icon name="add" slot="start"></ion-icon> Agrega respuesta</ion-button>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          Fotos: <ion-badge slot="end" color="dark">{{ fotos }}</ion-badge></ion-label
+        >
+        <ion-button slot="end" class="m-0 p-0" shape="round" fill="clear" size="large">
+          <label for="input"> <ion-icon slot="icon-only" name="images-outline" color="dark"></ion-icon> </label>
+          <input id="input" type="file" class="d-none" (change)="uploadFile($event)" />
+        </ion-button>
+      </ion-item>
+
+      <ion-button expand="block" color="primary" class="m-3" (click)="savePregunta()">Guardar Pregunta</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
